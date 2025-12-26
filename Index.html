@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reliability.to | Cloud Cost Optimization</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;500;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/js/all.min.js" defer></script>
+    <style>
+        :root {
+            --bg-color: #050505;
+            --card-bg: #111111;
+            --text-primary: #ffffff;
+            --text-secondary: #a0a0a0;
+            --accent: #deff9a; /* Neon Lime from slides */
+            --accent-dim: rgba(222, 255, 154, 0.1);
+            --border: #333;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            font-family: 'Space Grotesk', sans-serif;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+            transition: color 0.3s ease;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        /* --- LAYOUT UTILITIES --- */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        section {
+            padding: 5rem 0;
+        }
+
+        /* --- TYPOGRAPHY --- */
+        h1, h2, h3 {
+            font-weight: 700;
+            letter-spacing: -0.03em;
+            line-height: 1.1;
+        }
+
+        h2 {
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            border-left: 4px solid var(--accent);
+            padding-left: 1rem;
+        }
+
+        .mono {
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        /* --- HERO SECTION --- */
+        .hero {
+            height: 90vh;
+            display: flex;
+            align-items: center;
+            position: relative;
+            background: radial-gradient(circle at 80% 20%, #1a1a1a 0%, var(--bg-color) 60%);
+        }
+
+        .hero-content {
+            z-index: 2;
+        }
+
+        h1.hero-title {
+            font-size: clamp(3rem, 8vw, 6rem);
+            margin-bottom: 1.5rem;
+        }
+
+        .dynamic-wrapper {
+            display: inline-block;
+            color: var(--accent);
+            position: relative;
+        }
+        
+        /* Cursor effect */
+        .cursor {
+            display: inline-block;
+            width: 3px;
+            background-color: var(--accent);
+            animation: blink 1s step-end infinite;
+            margin-left: 5px;
+            height: 0.8em;
+            vertical-align: middle;
+        }
+
+        .hero-subtitle {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin-bottom: 2rem;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 1rem 2rem;
+            background: var(--accent);
+            color: #000;
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 700;
+            border-radius: 4px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(222, 255, 154, 0.4);
+        }
+
+        /* --- BACKGROUND MESH --- */
+        .grid-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(var(--border) 1px, transparent 1px),
+                linear-gradient(90deg, var(--border) 1px, transparent 1px);
+            background-size: 40px 40px;
+            opacity: 0.1;
+            z-index: 1;
+            mask-image: linear-gradient(to bottom, black 40%, transparent 100%);
+        }
+
+        /* --- SERVICES SECTION --- */
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            padding: 2rem;
+            border-radius: 8px;
+            transition: border-color 0.3s, transform 0.3s;
+        }
+
+        .card:hover {
+            border-color: var(--accent);
+            transform: translateY(-5px);
+        }
+
+        .card-icon {
+            font-size: 1.5rem;
+            color: var(--accent);
+            margin-bottom: 1.5rem;
+        }
+
+        .card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .card p {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+
+        /* --- FUTURE SECTION --- */
+        .future-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .tag {
+            background: var(--accent-dim);
+            color: var(--accent);
+            padding: 0.5rem 1rem;
+            border-radius: 100px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+            border: 1px solid var(--accent);
+        }
+
+        /* --- FOOTER --- */
+        footer {
+            border-top: 1px solid var(--border);
+            padding: 3rem 0;
+            margin-top: 4rem;
+            text-align: center;
+        }
+
+        .contact-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin: 0 1rem;
+            font-size: 1.1rem;
+        }
+        
+        .contact-link:hover {
+            color: var(--accent);
+        }
+
+        /* --- ANIMATIONS --- */
+        @keyframes blink {
+            from, to { opacity: 1; }
+            50% { opacity: 0; }
+        }
+
+        /* Mobile Adjustments */
+        @media (max-width: 768px) {
+            h1.hero-title { font-size: 3rem; }
+            section { padding: 3rem 0; }
+            .contact-link { display: block; margin: 1rem 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="grid-bg"></div>
+
+    <!-- HERO -->
+    <header class="hero">
+        <div class="container hero-content">
+            <h1 class="hero-title">
+                Reliability to <br>
+                <span class="dynamic-wrapper"><span id="typewriter"></span><span class="cursor"></span></span>
+            </h1>
+            <p class="hero-subtitle">
+                Turning cloud waste into predictable profit. <br>
+                Principal-level FinOps and Engineering leadership.
+            </p>
+            <a href="mailto:charlie@schluting.com" class="btn">Start The Conversation</a>
+        </div>
+    </header>
+
+    <!-- CORE OFFERING -->
+    <section id="services">
+        <div class="container">
+            <h2>Cloud Cost Optimization</h2>
+            <p style="color: var(--text-secondary); max-width: 800px; margin-bottom: 3rem; font-size: 1.2rem;">
+                Most companies treat their cloud bill as a mystery tax. We treat it as an engineering defect.
+                Using a forensic approach to infrastructure, we implement systemic fixes that reduce spend without risking stability.
+            </p>
+
+            <div class="services-grid">
+                <!-- Package 1 -->
+                <div class="card">
+                    <div class="card-icon"><i class="fa-solid fa-bolt"></i></div>
+                    <h3>Diagnostic Blitz</h3>
+                    <p>A rapid 5-day assessment to identify "Quick Wins" and immediate waste. Perfect for qualifying the opportunity.</p>
+                </div>
+
+                <!-- Package 2 -->
+                <div class="card">
+                    <div class="card-icon"><i class="fa-solid fa-magnifying-glass-chart"></i></div>
+                    <h3>Audit & Kickstart</h3>
+                    <p>Deep-dive forensic audit and a 90-day execution roadmap. We identify the savings, you reap the ROI.</p>
+                </div>
+
+                <!-- Package 3 -->
+                <div class="card">
+                    <div class="card-icon"><i class="fa-solid fa-handshake-simple"></i></div>
+                    <h3>Implementation Partner</h3>
+                    <p>Fractional leadership to lead complex migrations and enforce governance. We embed with your team to drive change.</p>
+                </div>
+
+                <!-- Package 4 -->
+                <div class="card">
+                    <div class="card-icon"><i class="fa-solid fa-shield-halved"></i></div>
+                    <h3>Compliance Monitoring</h3>
+                    <p>The safety net. Continuous oversight of your cloud budget to detect drift and fix spikes before they become bills.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FUTURE CAPABILITIES -->
+    <section id="capabilities">
+        <div class="container">
+            <h2>Future-Proofing</h2>
+            <div class="future-list">
+                <span class="tag">Cloud Migrations</span>
+                <span class="tag">IaC Conversions (Terraform)</span>
+                <span class="tag">Zero-Downtime Architecture</span>
+                <span class="tag">Kubernetes Optimization</span>
+                <span class="tag">SOC 2 Readiness</span>
+                <span class="tag">Observability Strategy</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="container">
+            <h3 class="mono" style="margin-bottom: 1rem;">RELIABILITY.TO</h3>
+<!--            <p style="color: var(--text-secondary); margin-bottom: 2rem;">Charlie Schluting | Principal Engineer</p>
+            
+            <div>
+                <a href="mailto:charlie@schluting.com" class="contact-link">
+                    <i class="fa-solid fa-envelope"></i> charlie@schluting.com
+                </a>
+                <a href="https://linkedin.com/in/charlieschluting" target="_blank" class="contact-link">
+                    <i class="fa-brands fa-linkedin"></i> LinkedIn
+                </a>
+                <a href="https://github.com/manos" target="_blank" class="contact-link">
+                    <i class="fa-brands fa-github"></i> GitHub
+                </a>
+            </div>
+-->
+            <p style="margin-top: 3rem; font-size: 0.8rem; color: #444;">&copy; 2025 Reliability Consulting LLC. Formed in Wyoming.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Typing Animation Logic
+        const words = ["Plan.", "Build.", "Grow.", "Scale.", "Profit.", "Optimize."];
+        const textElement = document.getElementById("typewriter");
+        let wordIndex = 0;
+        let charIndex = 0;
+        let isDeleting = false;
+        let typeSpeed = 100;
+
+        function type() {
+            const currentWord = words[wordIndex];
+            
+            if (isDeleting) {
+                textElement.textContent = currentWord.substring(0, charIndex - 1);
+                charIndex--;
+                typeSpeed = 50; // Deleting is faster
+            } else {
+                textElement.textContent = currentWord.substring(0, charIndex + 1);
+                charIndex++;
+                typeSpeed = 150; // Typing is normal speed
+            }
+
+            if (!isDeleting && charIndex === currentWord.length) {
+                isDeleting = true;
+                typeSpeed = 2000; // Pause at end of word
+            } else if (isDeleting && charIndex === 0) {
+                isDeleting = false;
+                wordIndex = (wordIndex + 1) % words.length;
+                typeSpeed = 500; // Pause before new word
+            }
+
+            setTimeout(type, typeSpeed);
+        }
+
+        // Start animation on load
+        document.addEventListener('DOMContentLoaded', type);
+    </script>
+</body>
+</html>
+
